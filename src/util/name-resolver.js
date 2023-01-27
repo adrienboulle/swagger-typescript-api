@@ -90,7 +90,7 @@ class SpecificArgNameResolver extends NameResolver {
    */
   constructor(logger, reservedNames) {
     super(logger, reservedNames, (variants) => {
-      return (variants[0] && `${variants[0]}${getRandomInt(1, 10)}`) || `arg${getRandomInt(1, 10)}`;
+      return (variants[0] && `${variants[0]}${getRandomInt(1, 1000)}`) || `arg${getRandomInt(1, 1000)}`;
     });
   }
 }
@@ -102,7 +102,7 @@ class ComponentTypeNameResolver extends NameResolver {
    */
   constructor(logger, reservedNames) {
     super(logger, reservedNames, (variants) => {
-      return (variants[0] && `${variants[0]}${getRandomInt(1, 10)}`) || `ComponentType${getRandomInt(1, 10)}`;
+      return (variants[0] && `${variants[0]}${getRandomInt(1, 1000)}`) || `ComponentType${getRandomInt(1, 1000)}`;
     });
   }
 }

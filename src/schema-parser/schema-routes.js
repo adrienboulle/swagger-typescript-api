@@ -531,8 +531,6 @@ class SchemaRoutes {
     extractRequestParams,
     routeName,
   }) => {
-    if (!queryParams || !queryParams.length) return null;
-
     const pathParams = _.reduce(
       pathArgsSchemas,
       (acc, pathArgSchema) => {
@@ -570,6 +568,8 @@ class SchemaRoutes {
         ...pathParams,
       },
     };
+
+    if (!Object.keys(schema.properties).length) return null;
 
     const fixedSchema = this.config.hooks.onCreateRequestParams(schema);
 
