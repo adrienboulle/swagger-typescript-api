@@ -524,15 +524,7 @@ class SchemaRoutes {
     };
   };
 
-  createRequestParamsSchema = ({
-    queryParams,
-    queryObjectSchema,
-    pathArgsSchemas,
-    extractRequestParams,
-    routeName,
-  }) => {
-    if (!queryParams || !queryParams.length) return null;
-
+  createRequestParamsSchema = ({ queryObjectSchema, pathArgsSchemas, extractRequestParams, routeName }) => {
     const pathParams = _.reduce(
       pathArgsSchemas,
       (acc, pathArgSchema) => {
@@ -570,6 +562,8 @@ class SchemaRoutes {
         ...pathParams,
       },
     };
+
+    if (!Object.keys(schema.properties).length) return null;
 
     const fixedSchema = this.config.hooks.onCreateRequestParams(schema);
 
@@ -753,7 +747,6 @@ class SchemaRoutes {
     const requestBodyInfo = this.getRequestBodyInfo(routeInfo, routeParams, parsedSchemas, routeName);
 
     const requestParamsSchema = this.createRequestParamsSchema({
-      queryParams: routeParams.query,
       pathArgsSchemas: routeParams.path,
       queryObjectSchema,
       extractRequestParams,
