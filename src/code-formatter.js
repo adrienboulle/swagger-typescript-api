@@ -39,7 +39,7 @@ class CodeFormatter {
     return prettier.format(content, this.config.prettierOptions);
   };
 
-  formatCode = (code, { removeUnusedImports = true, prettierFormat = true } = {}) => {
+  formatCode = (code, { removeUnusedImports = false, prettierFormat = false } = {}) => {
     if (removeUnusedImports) {
       code = this.removeUnusedImports(code);
     }

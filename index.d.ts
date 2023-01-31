@@ -203,7 +203,7 @@ interface GenerateApiParamsBase {
    * }
    * ```
    */
-  customTranslator?: new () => typeof import("./src/translators/translator").Translator;
+  customTranslator?: new () => any;
   /** fallback name for enum key resolver */
   enumKeyResolverName?: string;
   /** fallback name for type name resolver */
@@ -254,12 +254,10 @@ type CodeGenConstruct = {
   TypeWithGeneric: (content: any) => string;
 };
 
-type PrimitiveTypeStructValue =
-  | string
-  | ((schema: Record<string, any>, parser: import("./src/schema-parser/schema-parser").SchemaParser) => string);
+type PrimitiveTypeStructValue = string | ((schema: Record<string, any>, parser: any) => string);
 
 type PrimitiveTypeStruct = Record<
-  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array",
+  "integer" | "number" | "boolean" | "object" | "file" | "string" | "array" | "date" | "date-time",
   string | ({ $default: PrimitiveTypeStructValue } & Record<string, PrimitiveTypeStructValue>)
 >;
 
@@ -324,10 +322,7 @@ export interface Hooks {
   /** calls after parse route (return type: customized route (ParsedRoute), nothing change (void), false (ignore this route)) */
   onCreateRoute: (routeData: ParsedRoute) => ParsedRoute | void | false;
   /** Start point of work this tool (after fetching schema) */
-  onInit?: <C extends GenerateApiConfiguration["config"]>(
-    configuration: C,
-    codeGenProcess: import("./src/code-gen-process").CodeGenProcess,
-  ) => C | void;
+  onInit?: <C extends GenerateApiConfiguration["config"]>(configuration: C, codeGenProcess: any) => C | void;
   /** customize configuration object before sending it to ETA templates */
   onPrepareConfig?: <C extends GenerateApiConfiguration>(currentConfiguration: C) => C | void;
   /** customize route name as you need */
@@ -443,7 +438,7 @@ export type RawRouteInfo = {
   description?: string;
   tags?: string[];
   summary?: string;
-  responses?: import("swagger-schema-official").Spec["responses"];
+  responses?: any;
   produces?: string[];
   requestBody?: object;
   consumes?: string[];
@@ -574,11 +569,11 @@ export interface GenerateApiConfiguration {
     typeNameResolverName: string;
     specificArgNameResolverName: string;
     /** do not use constructor args, it can break functionality of this property, just send class reference */
-    customTranslator?: new (...args: never[]) => typeof import("./src/translators/translator").Translator;
+    customTranslator?: new (...args: never[]) => any;
     internalTemplateOptions: {
       addUtilRequiredKeysType: boolean;
     };
-    componentTypeNameResolver: typeof import("./src/component-type-name-resolver").ComponentTypeNameResolver;
+    componentTypeNameResolver: any;
     fileNames: {
       dataContracts: string;
       routeTypes: string;
